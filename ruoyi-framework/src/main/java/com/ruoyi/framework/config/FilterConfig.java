@@ -22,13 +22,13 @@ import com.ruoyi.common.utils.StringUtils;
 @Configuration
 public class FilterConfig
 {
-    @Value("${xss.excludes}")
+    @Value("${xss.excludes:}")
     private String excludes;
 
-    @Value("${xss.urlPatterns}")
+    @Value("${xss.urlPatterns:/*}")
     private String urlPatterns;
 
-    @Value("${referer.allowed-domains}")
+    @Value("${referer.allowed-domains:}")
     private String allowedDomains;
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
