@@ -14,6 +14,59 @@ import com.ruoyi.mental.domain.entity.MentalChatSession;
 @Mapper
 public interface MentalChatMapper
 {
+                @Select("""
+                                                <script>
+                                                SELECT s.id,
+                                                                         s.user_id AS userId,
+                                                                         u.user_name AS userName,
+                                                                         s.session_title AS sessionTitle,
+                                                                         s.last_message AS lastMessage,
+                                                                         IFNULL(e.dominant_emotion, '') AS dominantEmotion,
+                                                                         IFNULL(e.mood_score, 0) AS moodScore,
+                                                                         s.create_time AS createTime,
+                                                                         s.update_time AS updateTime
+                                                FROM mh_chat_session s
+                                                LEFT JOIN mh_chat_emotion e ON e.session_id = s.id AND e.user_id = s.user_id
+                                                LEFT JOIN sys_user u ON u.user_id = s.user_id
+                                                WHERE s.del_flag = '0'
+                                                        <if test='emotionTag != null and emotionTag != ""'>
+                                                                AND e.dominant_emotion = #{emotionTag}
+                                                        </if>
+                                                ORDER BY s.update_time DESC
+                                                LIMIT #{offset}, #{size}
+                                                </script>
+                                                """)
+                List<Map<String, Object>> selectSessionsForAdmin(@Param("emotionTag") String emotionTag, @Param("offset") int offset,
+                                                @Param("size") int size);
+
+                @Select("""
+                                                <script>
+                                                SELECT COUNT(1)
+                                                FROM mh_chat_session s
+                                                LEFT JOIN mh_chat_emotion e ON e.session_id = s.id AND e.user_id = s.user_id
+                                                WHERE s.del_flag = '0'
+                                                        <if test='emotionTag != null and emotionTag != ""'>
+                                                                AND e.dominant_emotion = #{emotionTag}
+                                                        </if>
+                                                </script>
+                                                """)
+                long countSessionsForAdmin(@Param("emotionTag") String emotionTag);
+
+                @Select("""
+                                                SELECT m.id,
+                                                                         m.role,
+                                                                         m.content,
+                                                                         m.user_id AS userId,
+                                                                         m.create_time AS createTime
+                                                FROM mh_chat_message m
+                                                JOIN mh_chat_session s ON s.id = m.session_id
+                                                WHERE m.session_id = #{sessionId}
+                                                        AND m.del_flag = '0'
+                                                        AND s.del_flag = '0'
+                                                ORDER BY m.id ASC
+                                                """)
+                List<Map<String, Object>> selectMessagesForAdmin(@Param("sessionId") Long sessionId);
+
     @Select("""
             SELECT id,
                    session_title AS sessionTitle,

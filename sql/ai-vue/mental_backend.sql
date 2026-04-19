@@ -81,6 +81,23 @@ CREATE TABLE mh_knowledge_article (
   KEY idx_mh_knowledge_article_read_count (read_count)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='知识文章';
 
+DROP TABLE IF EXISTS mh_file_record;
+CREATE TABLE mh_file_record (
+  id BIGINT NOT NULL AUTO_INCREMENT COMMENT '主键ID',
+  business_type VARCHAR(64) NOT NULL COMMENT '业务类型',
+  business_id VARCHAR(64) NOT NULL COMMENT '业务ID',
+  business_field VARCHAR(64) NOT NULL COMMENT '业务字段',
+  origin_name VARCHAR(255) DEFAULT NULL COMMENT '原始文件名',
+  file_name VARCHAR(255) DEFAULT NULL COMMENT '系统文件名',
+  file_url VARCHAR(500) DEFAULT NULL COMMENT '文件访问地址',
+  file_size BIGINT DEFAULT 0 COMMENT '文件大小(字节)',
+  uploader_id BIGINT DEFAULT NULL COMMENT '上传人ID',
+  uploader_name VARCHAR(100) DEFAULT NULL COMMENT '上传人账号',
+  create_time DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  PRIMARY KEY (id),
+  KEY idx_mh_file_record_biz (business_type, business_id, business_field)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='文件上传记录';
+
 INSERT INTO mh_knowledge_article(title, summary, content, category_name, cover, author, read_count, like_count, comment_count, status)
 VALUES
 ('如何缓解焦虑', '识别触发因素并练习呼吸放松', '当你感到焦虑时，可以先暂停手头工作，尝试4-7-8呼吸法。', '情绪管理', 'https://file.itndedu.com/psychology_ai.png', 'AI心理健康助手', 12, 3, 1, '1'),

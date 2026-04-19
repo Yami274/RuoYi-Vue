@@ -145,3 +145,9 @@ xss:
   excludes: /system/notice
   # 匹配链接
   urlPatterns: /system/*,/monitor/*,/tool/*
+
+# 智谱大模型配置
+zhipu:
+  api-key: 6d6c451695bc41e7bafd03a3d398ca29.eThE1RJsiqgTTPtu
+  model: glm-4-flash
+  chat-url: https://open.bigmodel.cn/api/paas/v4/chat/completions

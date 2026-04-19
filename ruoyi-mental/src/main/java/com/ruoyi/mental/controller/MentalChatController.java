@@ -23,12 +23,24 @@ public class MentalChatController
 
     @GetMapping("/psychological-chat/sessions")
     public AjaxResult pageSessions(
-            @RequestParam(defaultValue = "1") int pageNum,
-            @RequestParam(defaultValue = "20") int pageSize)
+            @RequestParam(required = false) String emotionTag,
+            @RequestParam(defaultValue = "1") int currentPage,
+            @RequestParam(defaultValue = "20") int size,
+            @RequestParam(required = false) Integer pageNum,
+            @RequestParam(required = false) Integer pageSize)
     {
         Long userId = SecurityUtils.getUserId();
+        int finalPage = pageNum == null ? currentPage : pageNum;
+        int finalSize = pageSize == null ? size : pageSize;
         AjaxResult ajax = AjaxResult.success();
-        ajax.put("data", mentalAppService.pageSessions(userId, pageNum, pageSize));
+        if (SecurityUtils.isAdmin(userId))
+        {
+            ajax.put("data", mentalAppService.pageSessionsForAdmin(emotionTag, finalPage, finalSize));
+        }
+        else
+        {
+            ajax.put("data", mentalAppService.pageSessions(userId, finalPage, finalSize));
+        }
         return ajax;
     }
 
@@ -37,7 +49,14 @@ public class MentalChatController
     {
         Long userId = SecurityUtils.getUserId();
         AjaxResult ajax = AjaxResult.success();
-        ajax.put("data", mentalAppService.listMessages(userId, sessionId));
+        if (SecurityUtils.isAdmin(userId))
+        {
+            ajax.put("data", mentalAppService.listMessagesForAdmin(sessionId));
+        }
+        else
+        {
+            ajax.put("data", mentalAppService.listMessages(userId, sessionId));
+        }
         return ajax;
     }
 
