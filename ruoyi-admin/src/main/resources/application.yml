@@ -16,10 +16,10 @@ ruoyi:
 # 开发环境配置
 server:
   # 服务器的HTTP端口，默认为8080
-  port: 8080
+  port: 1235
   servlet:
     # 应用的访问路径
-    context-path: /
+    context-path: /api
   tomcat:
     # tomcat的URI编码
     uri-encoding: UTF-8
@@ -95,7 +95,7 @@ spring:
 # token配置
 token:
   # 令牌自定义标识
-  header: Authorization
+  header: token
   # 令牌密钥
   secret: abcdefghijklmnopqrstuvwxyz
   # 令牌有效期（默认30分钟）

@@ -149,6 +149,13 @@
                 <version>${ruoyi.version}</version>
             </dependency>
 
+            <!-- 心理助手业务模块 -->
+            <dependency>
+                <groupId>com.ruoyi</groupId>
+                <artifactId>ruoyi-mental</artifactId>
+                <version>${ruoyi.version}</version>
+            </dependency>
+
             <!-- 核心模块-->
             <dependency>
                 <groupId>com.ruoyi</groupId>
@@ -175,6 +182,7 @@
 
     <modules>
         <module>ruoyi-admin</module>
+        <module>ruoyi-mental</module>
         <module>ruoyi-framework</module>
         <module>ruoyi-system</module>
         <module>ruoyi-quartz</module>
